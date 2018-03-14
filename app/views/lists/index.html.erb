@@ -1,32 +1,43 @@
+<h1 class="text-center">
+  To Do List
+  <span class="badge" id="badge">
+      0
+  </span>
+</h1>
 
+<div class="container">
+  <div class="panel panel-info">
+      <div class="panel-heading">
+          <h3 class="panel-title">
+              事項清單
+          </h3>
+      </div>
 
+      <!-- 新增 -->
+      <div class="panel-body">
+          <%= form_for @list, remote: true do |f| %>
+          <div class="input-group">
+            <%= f.text_area :title, :class => "form-control" %>
+            <div class="input-group-addon">
+            <%= f.submit "+", :class => " my-btn btn-primary glyphicon glyphicon-plus" %>
+            </div>
+          </div>
+          <% end %>
+      </div>
 
-
-<table class="table table-striped table.hover text-center">
-      <tr>
-        <td>Check</td>
-        <td>Task</td>
-        <td>Due Date</td>
-        <td>Show</td>
-        <td>Edit</td>
-        <td>Delete</td>
-      </tr>
-    <% @lists.sort{|a,b| a.date <=> b.date}.each do |list|%>
-      <tr>
-            
-          <td><input type="checkbox" name=""></td>
-             
-          <td> <%= list.title.capitalize %></td>
-          <td><%= list.date %></td>
-          <td><button class="btn btn-default" ><%= link_to "Show", list_path(list)%></button></td>
-          <td><button type="button" class="btn btn-success"><%= link_to "Edit", edit_list_path(list)%></button></td>
-          <td><button type="button" class="btn btn-warning"><%= link_to "Delete", list_path(list),method: :delete, data:{ confirm: "Are you sure?" } %></button>
-          </td>
-      </tr>
-    <% end %>
-
-</table>
-
-<div class="text-center">
-<button class="btn btn-default"  type="submit"><%= link_to "New List", new_list_path %></button>
+      <!-- 待辦清單 -->
+      <table class="my-table table table-hover">
+        <tbody id="list">
+          <% @lists.each do |list| %>
+            <tr  id="list-<%= list.id %>">
+            <%= render :partial => "tr", :locals => { :list => list } %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+  </div>
 </div>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
